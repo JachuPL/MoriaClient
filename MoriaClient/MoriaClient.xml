@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MoriaClient</name>
+    </assembly>
+    <members>
+        <member name="T:MoriaClient.Teachers.IQueryTeachersData">
+            <summary>
+            Allows to query teachers-related data
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Teachers.IQueryTeachersData.GetAll">
+            <summary>
+            Returns list of all teachers
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Teachers.IQueryTeachersData.GetWithId(System.Int32[])">
+            <summary>
+            Returns list of teachers with ids passed in parameter
+            </summary>
+            <param name="idList">List of teachers ids</param>
+        </member>
+        <member name="M:MoriaClient.Teachers.IQueryTeachersData.Get(System.Int32)">
+            <summary>
+            Returns single teacher by id
+            </summary>
+            <param name="id">Id of teacher to retrieve</param>
+        </member>
+        <member name="T:MoriaClient.Teachers.Models.Teacher">
+            <summary>
+            Represents academic teacher
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Teachers.Models.Teacher.Id">
+            <summary>
+            Teachers Id
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Teachers.Models.Teacher.Degree">
+            <summary>
+            Teachers degree/title
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Teachers.Models.Teacher.DepartmentId">
+            <summary>
+            Id of department which is lowest in hierarchy and hires teacher
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Teachers.Models.Teacher.FirstName">
+            <summary>
+            Teachers first name
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Teachers.Models.Teacher.LastName">
+            <summary>
+            Teachers last name
+            </summary>
+        </member>
+    </members>
+</doc>

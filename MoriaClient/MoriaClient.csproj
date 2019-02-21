@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>JachuPL</Authors>
+    <Company>UMCS</Company>
+    <PackageLicenseUrl>https://github.com/JachuPL/MoriaClient/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>umcs, moria, moriaclient, syjon</PackageTags>
+    <PackageProjectUrl />
+    <RepositoryUrl>https://github.com/JachuPL/MoriaClient</RepositoryUrl>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\Jan\Desktop\MoriaClient\MoriaClient\MoriaClient.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>
