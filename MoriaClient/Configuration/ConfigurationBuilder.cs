@@ -8,14 +8,25 @@ namespace MoriaClient.Configuration
     public class ConfigurationBuilder
     {
         private string _apiUrl = string.Empty;
+        private string _teacherListEndpoint = string.Empty;
 
         /// <summary>
-        /// Changes Moria API url
+        /// Changes base Moria API url
         /// </summary>
         /// <param name="apiUrl">Url to Moria API</param>
-        public ConfigurationBuilder WithUrl(string apiUrl)
+        public ConfigurationBuilder WithApiUrl(string apiUrl)
         {
             _apiUrl = apiUrl;
+            return this;
+        }
+
+        /// <summary>
+        /// Changes teacher list endpoint
+        /// </summary>
+        /// <param name="endpoint">Endpoint path relative to base API url</param>
+        public ConfigurationBuilder WithTeacherListEndpoint(string endpoint)
+        {
+            _teacherListEndpoint = endpoint;
             return this;
         }
 
@@ -34,7 +45,7 @@ namespace MoriaClient.Configuration
                 throw new ArgumentException($"The api url '{_apiUrl}' is not a valid HTTP or HTTPS url.");
             }
 
-            return new ClientConfiguration(_apiUrl);
+            return new ClientConfiguration(_apiUrl, _teacherListEndpoint);
         }
 
         private bool IsProvidedUrlAValidHttpOrHttpsUrl(string apiUrl)

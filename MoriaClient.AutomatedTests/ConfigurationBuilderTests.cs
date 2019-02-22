@@ -19,7 +19,7 @@ namespace MoriaClient.AutomatedTests
 
             // When
             Action createInvalidConfiguration =
-                () => configuration = new ConfigurationBuilder().WithUrl(apiUrl).Build();
+                () => configuration = new ConfigurationBuilder().WithApiUrl(apiUrl).Build();
 
             // Then
             createInvalidConfiguration.Should().Throw<Exception>()
@@ -37,7 +37,7 @@ namespace MoriaClient.AutomatedTests
 
             // When
             Action createValidConfiguration =
-                () => configuration = new ConfigurationBuilder().WithUrl(apiUrl).Build();
+                () => configuration = new ConfigurationBuilder().WithApiUrl(apiUrl).Build();
 
             // Then
             createValidConfiguration.Should().NotThrow();

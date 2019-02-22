@@ -13,10 +13,12 @@ namespace MoriaClient.Common
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            return new HttpClient()
+            HttpClient client = new HttpClient()
             {
                 BaseAddress = configuration.ApiUri
             };
+
+            return client;
         }
     }
 }

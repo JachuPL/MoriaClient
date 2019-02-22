@@ -1,5 +1,6 @@
 ﻿using MoriaClient.Teachers.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MoriaClient.Teachers
 {
@@ -11,18 +12,18 @@ namespace MoriaClient.Teachers
         /// <summary>
         /// Returns list of all teachers
         /// </summary>
-        IEnumerable<Teacher> GetAll();
+        Task<IEnumerable<Teacher>> GetAll();
 
         /// <summary>
         /// Returns list of teachers with ids passed in parameter
         /// </summary>
         /// <param name="idList">List of teachers ids</param>
-        IEnumerable<Teacher> GetWithId(params int[] idList);
+        Task<IEnumerable<Teacher>> GetWithId(params int[] idList);
 
         /// <summary>
         /// Returns single teacher by id
         /// </summary>
         /// <param name="id">Id of teacher to retrieve</param>
-        Teacher Get(int id);
+        Task<Teacher> Get(int id);
     }
 }

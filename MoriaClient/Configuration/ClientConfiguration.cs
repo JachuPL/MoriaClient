@@ -12,9 +12,15 @@ namespace MoriaClient.Configuration
         /// </summary>
         public Uri ApiUri { get; }
 
-        internal ClientConfiguration(string apiUrl)
+        /// <summary>
+        /// Gets the path to teacher list endpoint relative to Moria API base url
+        /// </summary>
+        public string TeacherListEndpoint { get; }
+
+        internal ClientConfiguration(string apiUrl, string teacherListEndpoint)
         {
             ApiUri = new Uri(apiUrl);
+            TeacherListEndpoint = teacherListEndpoint;
         }
     }
 }

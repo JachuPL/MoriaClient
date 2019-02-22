@@ -14,16 +14,27 @@
             Gets the url to Moria API
             </summary>
         </member>
+        <member name="P:MoriaClient.Configuration.ClientConfiguration.TeacherListEndpoint">
+            <summary>
+            Gets the path to teacher list endpoint relative to Moria API base url
+            </summary>
+        </member>
         <member name="T:MoriaClient.Configuration.ConfigurationBuilder">
             <summary>
             Allows to configure different MoriaClient options
             </summary>
         </member>
-        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.WithUrl(System.String)">
+        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.WithApiUrl(System.String)">
             <summary>
-            Changes Moria API url
+            Changes base Moria API url
             </summary>
             <param name="apiUrl">Url to Moria API</param>
+        </member>
+        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.WithTeacherListEndpoint(System.String)">
+            <summary>
+            Changes teacher list endpoint
+            </summary>
+            <param name="endpoint">Endpoint path relative to base API url</param>
         </member>
         <member name="M:MoriaClient.Configuration.ConfigurationBuilder.Build">
             <summary>

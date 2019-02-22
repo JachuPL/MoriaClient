@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using MoriaClient.Common;
+using MoriaClient.Configuration;
 using NUnit.Framework;
 using System;
 using System.Net.Http;
@@ -20,6 +21,20 @@ namespace MoriaClient.AutomatedTests
 
             // Then
             createClient.Should().Throw<ArgumentNullException>();
+        }
+
+        [TestCase(TestName = "HttpClientFactory creates HttpClient if supplied configuration is not null")]
+        public void ShouldCreateClientWhenConfigurationIsNotNull()
+        {
+            // Given
+            HttpClient client = null;
+
+            // When
+            Action createClient = () => client = HttpClientFactory.CreateClient(new ClientConfiguration("http://example.com", "teacher_list"));
+
+            // Then
+            createClient.Should().NotThrow();
+            client.Should().NotBeNull();
         }
     }
 }
