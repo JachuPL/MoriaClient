@@ -1,15 +1,15 @@
 ﻿using MoriaClient.Teachers.Models;
 using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Net.Http;
 
 namespace MoriaClient.Teachers
 {
     internal class QueryTeachersData : IQueryTeachersData
     {
-        private readonly WebClient _client;
+        private readonly HttpClient _client;
 
-        internal QueryTeachersData(WebClient client)
+        internal QueryTeachersData(HttpClient client)
         {
             _client = client;
         }

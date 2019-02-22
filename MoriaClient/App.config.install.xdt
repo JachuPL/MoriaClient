@@ -1,6 +1,0 @@
-﻿<?xml version="1.0"?>
-<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-  <appSettings xdt:Transform="Insert">
-    <add key="MoriaApiUrl" value="http://moria.umcs.lublin.pl/api" />
-  </appSettings>
-</configuration>

@@ -4,6 +4,43 @@
         <name>MoriaClient</name>
     </assembly>
     <members>
+        <member name="T:MoriaClient.Configuration.ClientConfiguration">
+            <summary>
+            Represents Moria Client configuration
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Configuration.ClientConfiguration.ApiUri">
+            <summary>
+            Gets the url to Moria API
+            </summary>
+        </member>
+        <member name="T:MoriaClient.Configuration.ConfigurationBuilder">
+            <summary>
+            Allows to configure different MoriaClient options
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.WithUrl(System.String)">
+            <summary>
+            Changes Moria API url
+            </summary>
+            <param name="apiUrl">Url to Moria API</param>
+        </member>
+        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.Build">
+            <summary>
+            Creates <see cref="T:MoriaClient.Configuration.ClientConfiguration"/> object based on builder pipeline
+            </summary>
+        </member>
+        <member name="T:MoriaClient.Teachers.Factories.TeacherQueryFactory">
+            <summary>
+            Factory that creates <see cref="T:MoriaClient.Teachers.IQueryTeachersData"/> objects.
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Teachers.Factories.TeacherQueryFactory.CreateQuery(MoriaClient.Configuration.ClientConfiguration)">
+            <summary>
+            Creates a new instance of <see cref="T:MoriaClient.Teachers.IQueryTeachersData"/> which uses supplied configuration.
+            </summary>
+            <param name="configuration">Configuration created by <see cref="T:MoriaClient.Configuration.ConfigurationBuilder"/> that will be used by current <see cref="T:MoriaClient.Teachers.IQueryTeachersData"/> instance.</param>
+        </member>
         <member name="T:MoriaClient.Teachers.IQueryTeachersData">
             <summary>
             Allows to query teachers-related data
