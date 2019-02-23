@@ -45,7 +45,7 @@
         </member>
         <member name="T:MoriaClient.Common.Configuration.EndpointType">
             <summary>
-            Represends Moria endpoint type
+            Represents Moria endpoint type
             </summary>
         </member>
         <member name="F:MoriaClient.Common.Configuration.EndpointType.TeacherList">
@@ -66,6 +66,64 @@
         <member name="F:MoriaClient.Common.Configuration.EndpointType.Room">
             <summary>
             Endpoint that allows to retrieve single room by id
+            </summary>
+        </member>
+        <member name="F:MoriaClient.Common.Configuration.EndpointType.CourseList">
+            <summary>
+            Endpoint that allows to retrieve list of courses
+            </summary>
+        </member>
+        <member name="F:MoriaClient.Common.Configuration.EndpointType.Course">
+            <summary>
+            Endpoint that allows to retrieve single course by id
+            </summary>
+        </member>
+        <member name="T:MoriaClient.Courses.Factories.CourseQueryFactory">
+            <summary>
+            Factory that creates <see cref="T:MoriaClient.Courses.IQueryCoursesData"/> objects.
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Courses.Factories.CourseQueryFactory.CreateQuery(MoriaClient.Common.Configuration.ClientConfiguration)">
+            <summary>
+            Creates a new instance of <see cref="T:MoriaClient.Courses.IQueryCoursesData"/> which uses supplied configuration.
+            </summary>
+            <param name="configuration">Configuration created by <see cref="T:MoriaClient.Common.Configuration.ConfigurationBuilder"/> that will be used by current <see cref="T:MoriaClient.Courses.IQueryCoursesData"/> instance.</param>
+        </member>
+        <member name="T:MoriaClient.Courses.IQueryCoursesData">
+            <summary>
+            Allows to query course-related data
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Courses.IQueryCoursesData.GetAll">
+            <summary>
+            Returns list of all courses
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Courses.IQueryCoursesData.GetWithId(System.Int32[])">
+            <summary>
+            Returns list of courses with ids passed in parameter
+            </summary>
+            <param name="idList">List of rooms ids</param>
+        </member>
+        <member name="M:MoriaClient.Courses.IQueryCoursesData.Get(System.Int32)">
+            <summary>
+            Returns single course by id
+            </summary>
+            <param name="id">Id of room to retrieve</param>
+        </member>
+        <member name="T:MoriaClient.Courses.Models.Course">
+            <summary>
+            Represents university course
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Courses.Models.Course.Id">
+            <summary>
+            Rooms Id
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Courses.Models.Course.Name">
+            <summary>
+            Rooms name
             </summary>
         </member>
         <member name="T:MoriaClient.Rooms.Factories.RoomQueryFactory">

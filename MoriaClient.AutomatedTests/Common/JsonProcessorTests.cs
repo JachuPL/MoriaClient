@@ -2,6 +2,7 @@
 using MoriaClient.Common;
 using MoriaClient.Common.Models.Request;
 using MoriaClient.Common.Models.Response;
+using MoriaClient.Courses.Models;
 using MoriaClient.Rooms.Models;
 using MoriaClient.Teachers.Models;
 using NUnit.Framework;
@@ -17,12 +18,12 @@ namespace MoriaClient.AutomatedTests.Common
         public void ShouldDeserializeTeacherArrayCorrectly()
         {
             // Given
-            string teacherArrayJsonResult =
+            string teacherArrayResultJson =
                 "{\"result\":{\"array\":[{\"degree\":\"A\",\"department_id\":1,\"first_name\":\"A\",\"id\":1,\"last_name\":\"A\"},{\"degree\":\"B\",\"department_id\":2,\"first_name\":\"B\",\"id\":2,\"last_name\":\"B\"},{\"degree\":\"C\",\"department_id\":3,\"first_name\":\"C\",\"id\":3,\"last_name\":\"C\"},{\"degree\":\"D\",\"department_id\":4,\"first_name\":\"D\",\"id\":4,\"last_name\":\"D\"}],\"count\":4},\"status\":\"ok\"}";
             // When
             EntityArrayApiResponse<Teacher> parsedEntities =
                 JsonProcessor.GetObjectFromStream<EntityArrayApiResponse<Teacher>>(
-                    new MemoryStream(Encoding.UTF8.GetBytes(teacherArrayJsonResult)));
+                    new MemoryStream(Encoding.UTF8.GetBytes(teacherArrayResultJson)));
 
             // Then
             parsedEntities.Should().NotBeNull();
@@ -39,12 +40,12 @@ namespace MoriaClient.AutomatedTests.Common
         public void ShouldDeserializeTeacherCorrectly()
         {
             // Given
-            string teacherArrayJsonResult =
+            string teacherResultJson =
                 "{\"result\":{\"degree\":\"A\",\"department_id\":1,\"first_name\":\"A\",\"id\":1,\"last_name\":\"A\"},\"status\":\"ok\"}";
             // When
             EntityApiResponse<Teacher> parsedEntities =
                 JsonProcessor.GetObjectFromStream<EntityApiResponse<Teacher>>(
-                    new MemoryStream(Encoding.UTF8.GetBytes(teacherArrayJsonResult)));
+                    new MemoryStream(Encoding.UTF8.GetBytes(teacherResultJson)));
 
             // Then
             parsedEntities.Should().NotBeNull();
@@ -86,12 +87,12 @@ namespace MoriaClient.AutomatedTests.Common
         public void ShouldDeserializeRoomArrayCorrectly()
         {
             // Given
-            string roomArrayJsonResult =
+            string romArrayResultJson =
                 "{\"result\":{\"array\":[{\"department_id\":1,\"id\":1,\"name\":\"A\",\"quanitiy\":1},{\"department_id\":2,\"id\":2,\"name\":\"B\",\"quanitiy\":2},{\"department_id\":3,\"id\":3,\"name\":\"C\",\"quanitiy\":3}],\"count\":3},\"status\":\"ok\"}";
             // When
             EntityArrayApiResponse<Room> parsedEntities =
                 JsonProcessor.GetObjectFromStream<EntityArrayApiResponse<Room>>(
-                    new MemoryStream(Encoding.UTF8.GetBytes(roomArrayJsonResult)));
+                    new MemoryStream(Encoding.UTF8.GetBytes(romArrayResultJson)));
 
             // Then
             parsedEntities.Should().NotBeNull();
@@ -107,12 +108,12 @@ namespace MoriaClient.AutomatedTests.Common
         public void ShouldDeserializeRoomCorrectly()
         {
             // Given
-            string teacherArrayJsonResult =
+            string roomResultJson =
                 "{\"result\":{\"department_id\":1,\"id\":1,\"name\":\"A\",\"quanitiy\":1},\"status\":\"ok\"}";
             // When
             EntityApiResponse<Room> parsedEntities =
                 JsonProcessor.GetObjectFromStream<EntityApiResponse<Room>>(
-                    new MemoryStream(Encoding.UTF8.GetBytes(teacherArrayJsonResult)));
+                    new MemoryStream(Encoding.UTF8.GetBytes(roomResultJson)));
 
             // Then
             parsedEntities.Should().NotBeNull();
@@ -121,6 +122,45 @@ namespace MoriaClient.AutomatedTests.Common
             parsedEntities.Result.Name.Should().Be("A");
             parsedEntities.Result.DepartmentId.Should().Be(1);
             parsedEntities.Result.Capacity.Should().Be(1);
+        }
+
+        [TestCase(TestName = "JsonProcessor should deserialize course array correctly")]
+        public void ShouldDeserializeCourseArrayCorrectly()
+        {
+            // Given
+            string courseArrayResultJson =
+                "{\"result\":{\"array\":[{\"id\":1,\"name\":\"A\"},{\"id\":2,\"name\":\"B\"},{\"id\":3,\"name\":\"C\"}],\"count\":3},\"status\":\"ok\"}";
+            // When
+            EntityArrayApiResponse<Course> parsedEntities =
+                JsonProcessor.GetObjectFromStream<EntityArrayApiResponse<Course>>(
+                    new MemoryStream(Encoding.UTF8.GetBytes(courseArrayResultJson)));
+
+            // Then
+            parsedEntities.Should().NotBeNull();
+            parsedEntities.Result.Should().NotBeNull();
+            parsedEntities.Result.Elements.Should().NotBeNullOrEmpty();
+            parsedEntities.Result.Elements.Should().HaveCount(3);
+            parsedEntities.Result.Elements.Should().Contain(x => x.Id == 1 && x.Name == "A");
+            parsedEntities.Result.Elements.Should().Contain(x => x.Id == 2 && x.Name == "B");
+            parsedEntities.Result.Elements.Should().Contain(x => x.Id == 3 && x.Name == "C");
+        }
+
+        [TestCase(TestName = "JsonProcessor should deserialize course correctly")]
+        public void ShouldDeserializeCourseCorrectly()
+        {
+            // Given
+            string courseResultJson =
+                "{\"result\":{\"id\":1,\"name\":\"A\"},\"status\":\"ok\"}";
+            // When
+            EntityApiResponse<Course> parsedEntities =
+                JsonProcessor.GetObjectFromStream<EntityApiResponse<Course>>(
+                    new MemoryStream(Encoding.UTF8.GetBytes(courseResultJson)));
+
+            // Then
+            parsedEntities.Should().NotBeNull();
+            parsedEntities.Result.Should().NotBeNull();
+            parsedEntities.Result.Id.Should().Be(1);
+            parsedEntities.Result.Name.Should().Be("A");
         }
 
         // TODO: test against error jsons
