@@ -34,6 +34,27 @@ namespace MoriaClient.AutomatedTests.Common
             parsedEntities.Result.Elements.Should().Contain(x => x.Id == 4 && x.Degree == "D" && x.DepartmentId == 4 && x.FirstName == "D" && x.LastName == "D");
         }
 
+        [TestCase(TestName = "JsonProcessor should deserialize teacher correctly")]
+        public void ShouldDeserializeTeacherCorrectly()
+        {
+            // Given
+            string teacherArrayJsonResult =
+                "{\"result\":{\"degree\":\"A\",\"department_id\":1,\"first_name\":\"A\",\"id\":1,\"last_name\":\"A\"},\"status\":\"ok\"}";
+            // When
+            EntityApiResponse<Teacher> parsedEntities =
+                JsonProcessor.GetObjectFromStream<EntityApiResponse<Teacher>>(
+                    new MemoryStream(Encoding.UTF8.GetBytes(teacherArrayJsonResult)));
+
+            // Then
+            parsedEntities.Should().NotBeNull();
+            parsedEntities.Result.Should().NotBeNull();
+            parsedEntities.Result.Id.Should().Be(1);
+            parsedEntities.Result.Degree.Should().Be("A");
+            parsedEntities.Result.DepartmentId.Should().Be(1);
+            parsedEntities.Result.FirstName.Should().Be("A");
+            parsedEntities.Result.LastName.Should().Be("A");
+        }
+
         [TestCase(TestName = "JsonProcessor should serialize int array request correctly")]
         public void ShouldSerializeIntArrayProperly()
         {
@@ -42,6 +63,19 @@ namespace MoriaClient.AutomatedTests.Common
 
             // When
             string result = JsonProcessor.GetStringFromObject(new IntArrayRequest(ids));
+
+            // Then
+            result.Should().NotBeNullOrWhiteSpace();
+        }
+
+        [TestCase(TestName = "JsonProcessor should serialize int request correctly")]
+        public void ShouldSerializeIntProperly()
+        {
+            // Given
+            int id = 1;
+
+            // When
+            string result = JsonProcessor.GetStringFromObject(new IntRequest(id));
 
             // Then
             result.Should().NotBeNullOrWhiteSpace();
