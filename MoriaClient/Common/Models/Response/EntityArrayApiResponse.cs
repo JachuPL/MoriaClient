@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MoriaClient.Common.Models
+namespace MoriaClient.Common.Models.Response
 {
     [DataContract]
     internal sealed class EntityArrayApiResponse<T> : AbstractApiResponse where T : class

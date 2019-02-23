@@ -1,12 +1,11 @@
 ﻿using MoriaClient.Common;
-using MoriaClient.Common.Models;
+using MoriaClient.Common.Models.Request;
+using MoriaClient.Common.Models.Response;
 using MoriaClient.Configuration;
 using MoriaClient.Teachers.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
-using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 
 namespace MoriaClient.Teachers
@@ -24,35 +23,49 @@ namespace MoriaClient.Teachers
 
         public async Task<IEnumerable<Teacher>> GetAll()
         {
-            using (HttpClient client = _clientFactory.CreateClient())
+            EntityArrayApiResponse<Teacher> apiResponse = await QueryTeacherArray();
+            return apiResponse.Result.Elements;
+        }
+
+        private async Task<EntityArrayApiResponse<Teacher>> QueryTeacherArray(params int[] ids)
+        {
+            Uri teacherListUri = new Uri(_configuration.BaseApiUri, _configuration.TeacherListEndpoint);
+
+            string jsonBody = string.Empty;
+
+            if (ids.Length > 0)
             {
-                Uri teacherListUri = new Uri(_configuration.BaseApiUri,
-                    _configuration.TeacherListEndpoint);
-                using (Stream responseStream = await client.GetStreamAsync(teacherListUri))
-                {
-                    DataContractJsonSerializer jsonSerializer =
-                        new DataContractJsonSerializer(typeof(EntityArrayApiResponse<Teacher>));
-                    EntityArrayApiResponse<Teacher> apiResponse =
-                        jsonSerializer.ReadObject(responseStream) as EntityArrayApiResponse<Teacher>;
-                    if (apiResponse?.Result is null)
-                    {
-                        throw new Exception(
-                            "Something wrong happened, server sent response that does not match predefined structure. Notify me about this bug by creating an issue at project page on GitHub.");
-                    }
+                jsonBody = JsonProcessor.GetStringFromObject(new IntArrayRequest(ids));
+            }
 
-                    if (apiResponse.Status.ToLower() != "ok")
-                    {
-                        throw new InvalidOperationException(apiResponse.Error);
-                    }
+            HttpResponseMessage responseMessage = await RequestMaker.GetResource(teacherListUri, jsonBody);
+            EntityArrayApiResponse<Teacher> apiResponse =
+                JsonProcessor.GetObjectFromStream<EntityArrayApiResponse<Teacher>>(
+                    await responseMessage.Content.ReadAsStreamAsync());
 
-                    return apiResponse.Result.Elements;
-                }
+            ValidateArrayResponse(apiResponse);
+
+            return apiResponse;
+        }
+
+        private void ValidateArrayResponse(EntityArrayApiResponse<Teacher> apiResponse)
+        {
+            if (apiResponse?.Result is null)
+            {
+                throw new Exception(
+                    "Something wrong happened, server sent response that does not match predefined structure. Notify me about this bug by creating an issue at project page on GitHub.");
+            }
+
+            if (apiResponse.Status.ToLower() != "ok")
+            {
+                throw new InvalidOperationException(apiResponse.Error);
             }
         }
 
         public async Task<IEnumerable<Teacher>> GetWithId(params int[] idList)
         {
-            throw new NotImplementedException();
+            var apiResponse = await QueryTeacherArray(idList);
+            return apiResponse.Result.Elements;
         }
 
         public async Task<Teacher> Get(int id)
