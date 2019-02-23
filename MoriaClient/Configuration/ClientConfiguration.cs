@@ -8,18 +8,18 @@ namespace MoriaClient.Configuration
     public sealed class ClientConfiguration
     {
         /// <summary>
-        /// Gets the url to Moria API
+        /// Gets the base url to Moria API
         /// </summary>
-        public Uri ApiUri { get; }
+        public Uri BaseApiUri { get; }
 
         /// <summary>
         /// Gets the path to teacher list endpoint relative to Moria API base url
         /// </summary>
         public string TeacherListEndpoint { get; }
 
-        internal ClientConfiguration(string apiUrl, string teacherListEndpoint)
+        internal ClientConfiguration(string baseApiUrl, string teacherListEndpoint)
         {
-            ApiUri = new Uri(apiUrl);
+            BaseApiUri = new Uri(baseApiUrl);
             TeacherListEndpoint = teacherListEndpoint;
         }
     }

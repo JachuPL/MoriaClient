@@ -3,15 +3,16 @@ using MoriaClient.Configuration;
 using NUnit.Framework;
 using System;
 
-namespace MoriaClient.AutomatedTests
+namespace MoriaClient.AutomatedTests.Configuration
 {
     [TestFixture]
     public class ConfigurationBuilderTests
     {
         [TestCase("", typeof(ArgumentNullException), TestName = "ConfigurationBuilder should throw ArgumentNullException for empty string")]
         [TestCase(null, typeof(ArgumentNullException), TestName = "ConfigurationBuilder should throw ArgumentNullException for null string")]
-        [TestCase("\r\n\t  ", typeof(ArgumentNullException), TestName = "ConfigurationBuilder should throw ArgumentNullException for null string")]
-        [TestCase("http://", typeof(ArgumentException), TestName = "ConfigurationBuilder should throw ArgumentNullException for null string")]
+        [TestCase("\r\n\t  ", typeof(ArgumentNullException), TestName = "ConfigurationBuilder should throw ArgumentNullException for whitespace string")]
+        [TestCase("http://", typeof(ArgumentException), TestName = "ConfigurationBuilder should throw ArgumentException for invalid url")]
+        [TestCase("invalid phrase one might supply as parameter", typeof(ArgumentException), TestName = "ConfigurationBuilder should throw ArgumentException for invalid string")]
         public void ShouldThrowExceptionWhenApiUrlIsIncorrect(string apiUrl, Type exceptionType)
         {
             // Given
@@ -24,6 +25,7 @@ namespace MoriaClient.AutomatedTests
             // Then
             createInvalidConfiguration.Should().Throw<Exception>()
                 .Which.GetType().Should().Be(exceptionType);
+            configuration.Should().BeNull();
         }
 
         [TestCase("http://example.com", TestName = "ConfigurationBuilder should not throw exception for valid domain name with suffix")]
@@ -42,7 +44,7 @@ namespace MoriaClient.AutomatedTests
             // Then
             createValidConfiguration.Should().NotThrow();
             configuration.Should().NotBeNull();
-            configuration.ApiUri.Should().Be(apiUrl);
+            configuration.BaseApiUri.Should().Be(apiUrl);
         }
     }
 }

@@ -9,9 +9,9 @@
             Represents Moria Client configuration
             </summary>
         </member>
-        <member name="P:MoriaClient.Configuration.ClientConfiguration.ApiUri">
+        <member name="P:MoriaClient.Configuration.ClientConfiguration.BaseApiUri">
             <summary>
-            Gets the url to Moria API
+            Gets the base url to Moria API
             </summary>
         </member>
         <member name="P:MoriaClient.Configuration.ClientConfiguration.TeacherListEndpoint">

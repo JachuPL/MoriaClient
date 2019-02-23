@@ -3,9 +3,8 @@ using MoriaClient.Common;
 using MoriaClient.Configuration;
 using NUnit.Framework;
 using System;
-using System.Net.Http;
 
-namespace MoriaClient.AutomatedTests
+namespace MoriaClient.AutomatedTests.Common
 {
     [TestFixture]
     public class HttpClientFactoryTests
@@ -14,27 +13,29 @@ namespace MoriaClient.AutomatedTests
         public void ShouldThrowExceptionWhenConfigurationIsNull()
         {
             // Given
-            HttpClient client = null;
+            HttpClientFactory factory = null;
 
             // When
-            Action createClient = () => client = HttpClientFactory.CreateClient(null);
+            Action createFactory = () => factory = new HttpClientFactory(null);
 
             // Then
-            createClient.Should().Throw<ArgumentNullException>();
+            createFactory.Should().Throw<ArgumentNullException>();
+            factory.Should().BeNull();
         }
 
         [TestCase(TestName = "HttpClientFactory creates HttpClient if supplied configuration is not null")]
         public void ShouldCreateClientWhenConfigurationIsNotNull()
         {
             // Given
-            HttpClient client = null;
+            ClientConfiguration configuration = new ClientConfiguration("http://example.com", "teacher_list");
+            HttpClientFactory factory = null;
 
             // When
-            Action createClient = () => client = HttpClientFactory.CreateClient(new ClientConfiguration("http://example.com", "teacher_list"));
+            Action createFactory = () => factory = new HttpClientFactory(configuration.BaseApiUri);
 
             // Then
-            createClient.Should().NotThrow();
-            client.Should().NotBeNull();
+            createFactory.Should().NotThrow();
+            factory.Should().NotBeNull();
         }
     }
 }

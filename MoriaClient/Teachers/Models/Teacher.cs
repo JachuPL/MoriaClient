@@ -23,7 +23,7 @@ namespace MoriaClient.Teachers.Models
         /// <summary>
         /// Id of department which is lowest in hierarchy and hires teacher
         /// </summary>
-        [DataMember(Name = "department")]
+        [DataMember(Name = "department_id")]
         public int DepartmentId { get; set; }
 
         /// <summary>

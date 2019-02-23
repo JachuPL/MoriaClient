@@ -1,24 +1,23 @@
-﻿using MoriaClient.Configuration;
-using System;
+﻿using System;
 using System.Net.Http;
 
 namespace MoriaClient.Common
 {
-    internal static class HttpClientFactory
+    internal class HttpClientFactory
     {
-        internal static HttpClient CreateClient(ClientConfiguration configuration)
+        private readonly Uri _baseUri;
+
+        public HttpClientFactory(Uri baseUri)
         {
-            if (configuration is null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
+            _baseUri = baseUri ?? throw new ArgumentNullException(nameof(Configuration));
+        }
 
-            HttpClient client = new HttpClient()
+        internal HttpClient CreateClient()
+        {
+            return new HttpClient()
             {
-                BaseAddress = configuration.ApiUri
+                BaseAddress = _baseUri
             };
-
-            return client;
         }
     }
 }
