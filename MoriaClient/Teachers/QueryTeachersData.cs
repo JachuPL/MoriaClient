@@ -1,7 +1,7 @@
 ﻿using MoriaClient.Common;
+using MoriaClient.Common.Configuration;
 using MoriaClient.Common.Models.Request;
 using MoriaClient.Common.Models.Response;
-using MoriaClient.Configuration;
 using MoriaClient.Teachers.Models;
 using System;
 using System.Collections.Generic;

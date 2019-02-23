@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MoriaClient.Configuration
+namespace MoriaClient.Common.Configuration
 {
     /// <summary>
     /// Represents Moria Client configuration

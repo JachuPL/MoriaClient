@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MoriaClient.Configuration
+namespace MoriaClient.Common.Configuration
 {
     /// <summary>
     /// Allows to configure different MoriaClient options

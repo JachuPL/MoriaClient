@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using MoriaClient.Configuration;
+using MoriaClient.Common.Configuration;
 using MoriaClient.Teachers;
 using MoriaClient.Teachers.Factories;
 using NUnit.Framework;

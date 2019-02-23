@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using MoriaClient.Configuration;
+using MoriaClient.Common.Configuration;
 using NUnit.Framework;
 using System;
 
