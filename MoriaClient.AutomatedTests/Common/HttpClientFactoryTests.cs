@@ -3,6 +3,7 @@ using MoriaClient.Common;
 using MoriaClient.Common.Configuration;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace MoriaClient.AutomatedTests.Common
 {
@@ -27,7 +28,12 @@ namespace MoriaClient.AutomatedTests.Common
         public void ShouldCreateClientWhenConfigurationIsNotNull()
         {
             // Given
-            ClientConfiguration configuration = new ClientConfiguration("http://example.com", "teacher_list", string.Empty);
+            Dictionary<EndpointType, string> endpoints = new Dictionary<EndpointType, string>
+            {
+                { EndpointType.TeacherList, "teacher_list" },
+                { EndpointType.Teacher, "teacher" }
+            };
+            ClientConfiguration configuration = new ClientConfiguration("http://example.com", endpoints);
             HttpClientFactory factory = null;
 
             // When

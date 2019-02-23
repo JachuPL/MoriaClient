@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MoriaClient.Common.Configuration
 {
@@ -13,20 +14,14 @@ namespace MoriaClient.Common.Configuration
         public Uri BaseApiUri { get; }
 
         /// <summary>
-        /// Gets the path to teacher list endpoint relative to Moria API base url
+        /// Gets a read-only dictionary of configured endpoints
         /// </summary>
-        public string TeacherListEndpoint { get; }
+        public IReadOnlyDictionary<EndpointType, string> Endpoints { get; }
 
-        /// <summary>
-        /// Gets the path to teacher entity endpoint relative to Moria API base url
-        /// </summary>
-        public string TeacherEntityEndpoint { get; }
-
-        internal ClientConfiguration(string baseApiUrl, string teacherListEndpoint, string teacherEntityEndpoint)
+        internal ClientConfiguration(string baseApiUrl, IReadOnlyDictionary<EndpointType, string> endpoints)
         {
             BaseApiUri = new Uri(baseApiUrl);
-            TeacherListEndpoint = teacherListEndpoint;
-            TeacherEntityEndpoint = teacherEntityEndpoint;
+            Endpoints = endpoints;
         }
     }
 }

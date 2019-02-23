@@ -29,7 +29,7 @@ namespace MoriaClient.Teachers
 
         private async Task<EntityArrayApiResponse<Teacher>> QueryTeacherArray(params int[] ids)
         {
-            Uri teacherListUri = new Uri(_configuration.BaseApiUri, _configuration.TeacherListEndpoint);
+            Uri teacherListUri = new Uri(_configuration.BaseApiUri, _configuration.Endpoints[EndpointType.TeacherList]);
 
             string jsonBody = string.Empty;
 
@@ -70,7 +70,7 @@ namespace MoriaClient.Teachers
 
         public async Task<Teacher> Get(int id)
         {
-            Uri teacherListUri = new Uri(_configuration.BaseApiUri, _configuration.TeacherEntityEndpoint);
+            Uri teacherListUri = new Uri(_configuration.BaseApiUri, _configuration.Endpoints[EndpointType.Teacher]);
 
             string jsonBody = JsonProcessor.GetStringFromObject(new IntRequest(id));
 
@@ -88,7 +88,7 @@ namespace MoriaClient.Teachers
         {
             if (apiResponse?.Result is null)
             {
-                throw new Exception(
+                throw new InvalidCastException(
                     "Something wrong happened, server sent response that does not match predefined structure. Notify me about this bug by creating an issue at project page on GitHub.");
             }
 

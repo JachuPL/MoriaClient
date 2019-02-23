@@ -4,6 +4,7 @@ using MoriaClient.Teachers;
 using MoriaClient.Teachers.Factories;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace MoriaClient.AutomatedTests.Teachers.Factories
 {
@@ -29,12 +30,17 @@ namespace MoriaClient.AutomatedTests.Teachers.Factories
         public void ShouldCreateQueryIfConfigurationWasSupplied()
         {
             // Given
+            Dictionary<EndpointType, string> endpoints = new Dictionary<EndpointType, string>
+            {
+                { EndpointType.TeacherList, "teacher_list" },
+                { EndpointType.Teacher, "teacher" }
+            };
             IQueryTeachersData queryTeachers = null;
 
             // When
             Action createQuery = () =>
                 queryTeachers =
-                    TeacherQueryFactory.CreateQuery(new ClientConfiguration("http://example.com", "teachers_list", string.Empty));
+                    TeacherQueryFactory.CreateQuery(new ClientConfiguration("http://example.com", endpoints));
 
             // Then
             createQuery.Should().NotThrow();

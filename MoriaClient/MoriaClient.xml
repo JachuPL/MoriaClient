@@ -4,52 +4,58 @@
         <name>MoriaClient</name>
     </assembly>
     <members>
-        <member name="T:MoriaClient.Configuration.ClientConfiguration">
+        <member name="T:MoriaClient.Common.Configuration.ClientConfiguration">
             <summary>
             Represents Moria Client configuration
             </summary>
         </member>
-        <member name="P:MoriaClient.Configuration.ClientConfiguration.BaseApiUri">
+        <member name="P:MoriaClient.Common.Configuration.ClientConfiguration.BaseApiUri">
             <summary>
             Gets the base url to Moria API
             </summary>
         </member>
-        <member name="P:MoriaClient.Configuration.ClientConfiguration.TeacherListEndpoint">
+        <member name="P:MoriaClient.Common.Configuration.ClientConfiguration.Endpoints">
             <summary>
-            Gets the path to teacher list endpoint relative to Moria API base url
+            Gets a read-only dictionary of configured endpoints
             </summary>
         </member>
-        <member name="P:MoriaClient.Configuration.ClientConfiguration.TeacherEntityEndpoint">
-            <summary>
-            Gets the path to teacher entity endpoint relative to Moria API base url
-            </summary>
-        </member>
-        <member name="T:MoriaClient.Configuration.ConfigurationBuilder">
+        <member name="T:MoriaClient.Common.Configuration.ConfigurationBuilder">
             <summary>
             Allows to configure different MoriaClient options
             </summary>
         </member>
-        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.WithApiUrl(System.String)">
+        <member name="M:MoriaClient.Common.Configuration.ConfigurationBuilder.WithApiUrl(System.String)">
             <summary>
             Changes base Moria API url
             </summary>
             <param name="apiUrl">Url to Moria API</param>
         </member>
-        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.WithTeacherListEndpoint(System.String)">
+        <member name="M:MoriaClient.Common.Configuration.ConfigurationBuilder.AddEndpoint(MoriaClient.Common.Configuration.EndpointType,System.String)">
             <summary>
-            Changes teacher list endpoint
+            Adds an endpoint of specific type to endpoint dictionary.
             </summary>
-            <param name="endpoint">Endpoint path relative to base API url</param>
+            <param name="type">The type of endpoint to add</param>
+            <param name="endpoint">The endpoint url relative to base Moria API url</param>
+            <returns></returns>
         </member>
-        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.WithTeacherEntityEndpoint(System.String)">
+        <member name="M:MoriaClient.Common.Configuration.ConfigurationBuilder.Build">
             <summary>
-            Changes teacher entity endpoint
+            Creates <see cref="T:MoriaClient.Common.Configuration.ClientConfiguration"/> object based on builder pipeline
             </summary>
-            <param name="endpoint">Endpoint path relative to base API url</param>
         </member>
-        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.Build">
+        <member name="T:MoriaClient.Common.Configuration.EndpointType">
             <summary>
-            Creates <see cref="T:MoriaClient.Configuration.ClientConfiguration"/> object based on builder pipeline
+            Represends Moria endpoint type
+            </summary>
+        </member>
+        <member name="F:MoriaClient.Common.Configuration.EndpointType.TeacherList">
+            <summary>
+            Endpoint that allows to retrieve list of teachers
+            </summary>
+        </member>
+        <member name="F:MoriaClient.Common.Configuration.EndpointType.Teacher">
+            <summary>
+            Endpoint that allows to retrieve single teacher by id
             </summary>
         </member>
         <member name="T:MoriaClient.Teachers.Factories.TeacherQueryFactory">
@@ -57,11 +63,11 @@
             Factory that creates <see cref="T:MoriaClient.Teachers.IQueryTeachersData"/> objects.
             </summary>
         </member>
-        <member name="M:MoriaClient.Teachers.Factories.TeacherQueryFactory.CreateQuery(MoriaClient.Configuration.ClientConfiguration)">
+        <member name="M:MoriaClient.Teachers.Factories.TeacherQueryFactory.CreateQuery(MoriaClient.Common.Configuration.ClientConfiguration)">
             <summary>
             Creates a new instance of <see cref="T:MoriaClient.Teachers.IQueryTeachersData"/> which uses supplied configuration.
             </summary>
-            <param name="configuration">Configuration created by <see cref="T:MoriaClient.Configuration.ConfigurationBuilder"/> that will be used by current <see cref="T:MoriaClient.Teachers.IQueryTeachersData"/> instance.</param>
+            <param name="configuration">Configuration created by <see cref="T:MoriaClient.Common.Configuration.ConfigurationBuilder"/> that will be used by current <see cref="T:MoriaClient.Teachers.IQueryTeachersData"/> instance.</param>
         </member>
         <member name="T:MoriaClient.Teachers.IQueryTeachersData">
             <summary>

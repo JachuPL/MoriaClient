@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MoriaClient.Common.Configuration
 {
@@ -8,8 +9,7 @@ namespace MoriaClient.Common.Configuration
     public class ConfigurationBuilder
     {
         private string _apiUrl = string.Empty;
-        private string _teacherListEndpoint = string.Empty;
-        private string _teacherEntityEndpoint = string.Empty;
+        private readonly Dictionary<EndpointType, string> _endpoints = new Dictionary<EndpointType, string>();
 
         /// <summary>
         /// Changes base Moria API url
@@ -22,22 +22,14 @@ namespace MoriaClient.Common.Configuration
         }
 
         /// <summary>
-        /// Changes teacher list endpoint
+        /// Adds an endpoint of specific type to endpoint dictionary.
         /// </summary>
-        /// <param name="endpoint">Endpoint path relative to base API url</param>
-        public ConfigurationBuilder WithTeacherListEndpoint(string endpoint)
+        /// <param name="type">The type of endpoint to add</param>
+        /// <param name="endpoint">The endpoint url relative to base Moria API url</param>
+        /// <returns></returns>
+        public ConfigurationBuilder AddEndpoint(EndpointType type, string endpoint)
         {
-            _teacherListEndpoint = endpoint;
-            return this;
-        }
-
-        /// <summary>
-        /// Changes teacher entity endpoint
-        /// </summary>
-        /// <param name="endpoint">Endpoint path relative to base API url</param>
-        public ConfigurationBuilder WithTeacherEntityEndpoint(string endpoint)
-        {
-            _teacherEntityEndpoint = endpoint;
+            _endpoints[type] = endpoint;
             return this;
         }
 
@@ -56,7 +48,7 @@ namespace MoriaClient.Common.Configuration
                 throw new ArgumentException($"The api url '{_apiUrl}' is not a valid HTTP or HTTPS url.");
             }
 
-            return new ClientConfiguration(_apiUrl, _teacherListEndpoint, _teacherEntityEndpoint);
+            return new ClientConfiguration(_apiUrl, _endpoints);
         }
 
         private bool IsProvidedUrlAValidHttpOrHttpsUrl(string apiUrl)
