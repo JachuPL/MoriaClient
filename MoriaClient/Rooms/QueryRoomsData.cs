@@ -2,32 +2,32 @@
 using MoriaClient.Common.Configuration;
 using MoriaClient.Common.Models.Request;
 using MoriaClient.Common.Models.Response;
-using MoriaClient.Teachers.Models;
+using MoriaClient.Rooms.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MoriaClient.Teachers
+namespace MoriaClient.Rooms
 {
-    internal class QueryTeachersData : IQueryTeachersData
+    internal sealed class QueryRoomsData : IQueryRoomsData
     {
         private readonly ClientConfiguration _configuration;
 
-        internal QueryTeachersData(ClientConfiguration configuration)
+        public QueryRoomsData(ClientConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public async Task<IEnumerable<Teacher>> GetAll()
+        public async Task<IEnumerable<Room>> GetAll()
         {
-            EntityArrayApiResponse<Teacher> apiResponse = await QueryTeacherArray();
+            EntityArrayApiResponse<Room> apiResponse = await QueryRoomArray();
             return apiResponse.Result.Elements;
         }
 
-        private async Task<EntityArrayApiResponse<Teacher>> QueryTeacherArray(params int[] ids)
+        private async Task<EntityArrayApiResponse<Room>> QueryRoomArray(params int[] ids)
         {
-            Uri teacherListUri = new Uri(_configuration.BaseApiUri, _configuration.Endpoints[EndpointType.TeacherList]);
+            Uri roomListUri = new Uri(_configuration.BaseApiUri, _configuration.Endpoints[EndpointType.RoomList]);
 
             string jsonBody = string.Empty;
 
@@ -36,9 +36,9 @@ namespace MoriaClient.Teachers
                 jsonBody = JsonProcessor.GetStringFromObject(new IntArrayRequest(ids));
             }
 
-            HttpResponseMessage responseMessage = await RequestMaker.GetResource(teacherListUri, jsonBody);
-            EntityArrayApiResponse<Teacher> apiResponse =
-                JsonProcessor.GetObjectFromStream<EntityArrayApiResponse<Teacher>>(
+            HttpResponseMessage responseMessage = await RequestMaker.GetResource(roomListUri, jsonBody);
+            EntityArrayApiResponse<Room> apiResponse =
+                JsonProcessor.GetObjectFromStream<EntityArrayApiResponse<Room>>(
                     await responseMessage.Content.ReadAsStreamAsync());
 
             ValidateArrayResponse(apiResponse);
@@ -46,7 +46,7 @@ namespace MoriaClient.Teachers
             return apiResponse;
         }
 
-        private static void ValidateArrayResponse(EntityArrayApiResponse<Teacher> apiResponse)
+        private static void ValidateArrayResponse(EntityArrayApiResponse<Room> apiResponse)
         {
             if (apiResponse?.Status.ToLower() != "ok")
             {
@@ -60,21 +60,21 @@ namespace MoriaClient.Teachers
             }
         }
 
-        public async Task<IEnumerable<Teacher>> GetWithId(params int[] idList)
+        public async Task<IEnumerable<Room>> GetWithId(params int[] idList)
         {
-            EntityArrayApiResponse<Teacher> apiResponse = await QueryTeacherArray(idList);
+            EntityArrayApiResponse<Room> apiResponse = await QueryRoomArray(idList);
             return apiResponse.Result.Elements;
         }
 
-        public async Task<Teacher> Get(int id)
+        public async Task<Room> Get(int id)
         {
-            Uri teacherUri = new Uri(_configuration.BaseApiUri, _configuration.Endpoints[EndpointType.Teacher]);
+            Uri roomUri = new Uri(_configuration.BaseApiUri, _configuration.Endpoints[EndpointType.Room]);
 
             string jsonBody = JsonProcessor.GetStringFromObject(new IntRequest(id));
 
-            HttpResponseMessage responseMessage = await RequestMaker.GetResource(teacherUri, jsonBody);
-            EntityApiResponse<Teacher> apiResponse =
-                JsonProcessor.GetObjectFromStream<EntityApiResponse<Teacher>>(await responseMessage.Content
+            HttpResponseMessage responseMessage = await RequestMaker.GetResource(roomUri, jsonBody);
+            EntityApiResponse<Room> apiResponse =
+                JsonProcessor.GetObjectFromStream<EntityApiResponse<Room>>(await responseMessage.Content
                     .ReadAsStreamAsync());
 
             ValidateResponse(apiResponse);
@@ -82,7 +82,7 @@ namespace MoriaClient.Teachers
             return apiResponse.Result;
         }
 
-        private static void ValidateResponse(EntityApiResponse<Teacher> apiResponse)
+        private static void ValidateResponse(EntityApiResponse<Room> apiResponse)
         {
             if (apiResponse?.Status.ToLower() != "ok")
             {

@@ -58,6 +58,74 @@
             Endpoint that allows to retrieve single teacher by id
             </summary>
         </member>
+        <member name="F:MoriaClient.Common.Configuration.EndpointType.RoomList">
+            <summary>
+            Endpoint that allows to retrieve list of rooms
+            </summary>
+        </member>
+        <member name="F:MoriaClient.Common.Configuration.EndpointType.Room">
+            <summary>
+            Endpoint that allows to retrieve single room by id
+            </summary>
+        </member>
+        <member name="T:MoriaClient.Rooms.Factories.RoomQueryFactory">
+            <summary>
+            Factory that creates <see cref="T:MoriaClient.Rooms.IQueryRoomsData"/> objects.
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Rooms.Factories.RoomQueryFactory.CreateQuery(MoriaClient.Common.Configuration.ClientConfiguration)">
+            <summary>
+            Creates a new instance of <see cref="T:MoriaClient.Rooms.IQueryRoomsData"/> which uses supplied configuration.
+            </summary>
+            <param name="configuration">Configuration created by <see cref="T:MoriaClient.Common.Configuration.ConfigurationBuilder"/> that will be used by current <see cref="T:MoriaClient.Rooms.IQueryRoomsData"/> instance.</param>
+        </member>
+        <member name="T:MoriaClient.Rooms.IQueryRoomsData">
+            <summary>
+            Allows to query room-related data
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Rooms.IQueryRoomsData.GetAll">
+            <summary>
+            Returns list of all rooms
+            </summary>
+        </member>
+        <member name="M:MoriaClient.Rooms.IQueryRoomsData.GetWithId(System.Int32[])">
+            <summary>
+            Returns list of rooms with ids passed in parameter
+            </summary>
+            <param name="idList">List of rooms ids</param>
+        </member>
+        <member name="M:MoriaClient.Rooms.IQueryRoomsData.Get(System.Int32)">
+            <summary>
+            Returns single room by id
+            </summary>
+            <param name="id">Id of room to retrieve</param>
+        </member>
+        <member name="T:MoriaClient.Rooms.Models.Room">
+            <summary>
+            Represents classroom
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Rooms.Models.Room.Id">
+            <summary>
+            Rooms Id
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Rooms.Models.Room.Name">
+            <summary>
+            Rooms name
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Rooms.Models.Room.DepartmentId">
+            <summary>
+            Id of department which is lowest in hierarchy and owns this room
+            </summary>
+        </member>
+        <member name="P:MoriaClient.Rooms.Models.Room.Capacity">
+            <summary>
+            Rooms capacity
+            </summary>
+        </member>
         <member name="T:MoriaClient.Teachers.Factories.TeacherQueryFactory">
             <summary>
             Factory that creates <see cref="T:MoriaClient.Teachers.IQueryTeachersData"/> objects.

@@ -2,6 +2,7 @@
 using MoriaClient.Common;
 using MoriaClient.Common.Models.Request;
 using MoriaClient.Common.Models.Response;
+using MoriaClient.Rooms.Models;
 using MoriaClient.Teachers.Models;
 using NUnit.Framework;
 using System.IO;
@@ -80,5 +81,48 @@ namespace MoriaClient.AutomatedTests.Common
             // Then
             result.Should().NotBeNullOrWhiteSpace();
         }
+
+        [TestCase(TestName = "JsonProcessor should deserialize room array correctly")]
+        public void ShouldDeserializeRoomArrayCorrectly()
+        {
+            // Given
+            string roomArrayJsonResult =
+                "{\"result\":{\"array\":[{\"department_id\":1,\"id\":1,\"name\":\"A\",\"quanitiy\":1},{\"department_id\":2,\"id\":2,\"name\":\"B\",\"quanitiy\":2},{\"department_id\":3,\"id\":3,\"name\":\"C\",\"quanitiy\":3}],\"count\":3},\"status\":\"ok\"}";
+            // When
+            EntityArrayApiResponse<Room> parsedEntities =
+                JsonProcessor.GetObjectFromStream<EntityArrayApiResponse<Room>>(
+                    new MemoryStream(Encoding.UTF8.GetBytes(roomArrayJsonResult)));
+
+            // Then
+            parsedEntities.Should().NotBeNull();
+            parsedEntities.Result.Should().NotBeNull();
+            parsedEntities.Result.Elements.Should().NotBeNullOrEmpty();
+            parsedEntities.Result.Elements.Should().HaveCount(3);
+            parsedEntities.Result.Elements.Should().Contain(x => x.Id == 1 && x.Name == "A" && x.Capacity == 1 && x.DepartmentId == 1);
+            parsedEntities.Result.Elements.Should().Contain(x => x.Id == 2 && x.Name == "B" && x.Capacity == 2 && x.DepartmentId == 2);
+            parsedEntities.Result.Elements.Should().Contain(x => x.Id == 3 && x.Name == "C" && x.Capacity == 3 && x.DepartmentId == 3);
+        }
+
+        [TestCase(TestName = "JsonProcessor should deserialize room correctly")]
+        public void ShouldDeserializeRoomCorrectly()
+        {
+            // Given
+            string teacherArrayJsonResult =
+                "{\"result\":{\"department_id\":1,\"id\":1,\"name\":\"A\",\"quanitiy\":1},\"status\":\"ok\"}";
+            // When
+            EntityApiResponse<Room> parsedEntities =
+                JsonProcessor.GetObjectFromStream<EntityApiResponse<Room>>(
+                    new MemoryStream(Encoding.UTF8.GetBytes(teacherArrayJsonResult)));
+
+            // Then
+            parsedEntities.Should().NotBeNull();
+            parsedEntities.Result.Should().NotBeNull();
+            parsedEntities.Result.Id.Should().Be(1);
+            parsedEntities.Result.Name.Should().Be("A");
+            parsedEntities.Result.DepartmentId.Should().Be(1);
+            parsedEntities.Result.Capacity.Should().Be(1);
+        }
+
+        // TODO: test against error jsons
     }
 }
