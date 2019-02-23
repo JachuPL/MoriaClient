@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +14,9 @@ namespace MoriaClient.Common
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = endpoint;
+                // TODO: make this come from config
+
+                client.DefaultRequestHeaders.UserAgent.Add(GetDefaultUserAgent());
 
                 using (HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, endpoint))
                 {
@@ -23,6 +28,13 @@ namespace MoriaClient.Common
                     }
                 }
             }
+        }
+
+        private static ProductInfoHeaderValue GetDefaultUserAgent()
+        {
+            // TODO: make version come from config
+            ProductHeaderValue header = new ProductHeaderValue("MoriaClient", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            return new ProductInfoHeaderValue(header);
         }
     }
 }

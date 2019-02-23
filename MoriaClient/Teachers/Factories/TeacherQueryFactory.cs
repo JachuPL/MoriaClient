@@ -1,5 +1,4 @@
-﻿using MoriaClient.Common;
-using MoriaClient.Configuration;
+﻿using MoriaClient.Configuration;
 using System;
 
 namespace MoriaClient.Teachers.Factories

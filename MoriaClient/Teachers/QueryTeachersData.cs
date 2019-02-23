@@ -70,7 +70,32 @@ namespace MoriaClient.Teachers
 
         public async Task<Teacher> Get(int id)
         {
-            throw new NotImplementedException();
+            Uri teacherListUri = new Uri(_configuration.BaseApiUri, _configuration.TeacherEntityEndpoint);
+
+            string jsonBody = JsonProcessor.GetStringFromObject(new IntRequest(id));
+
+            HttpResponseMessage responseMessage = await RequestMaker.GetResource(teacherListUri, jsonBody);
+            EntityApiResponse<Teacher> apiResponse =
+                JsonProcessor.GetObjectFromStream<EntityApiResponse<Teacher>>(await responseMessage.Content
+                    .ReadAsStreamAsync());
+
+            ValidateResponse(apiResponse);
+
+            return apiResponse.Result;
+        }
+
+        private void ValidateResponse(EntityApiResponse<Teacher> apiResponse)
+        {
+            if (apiResponse?.Result is null)
+            {
+                throw new Exception(
+                    "Something wrong happened, server sent response that does not match predefined structure. Notify me about this bug by creating an issue at project page on GitHub.");
+            }
+
+            if (apiResponse.Status.ToLower() != "ok")
+            {
+                throw new InvalidOperationException(apiResponse.Error);
+            }
         }
     }
 }

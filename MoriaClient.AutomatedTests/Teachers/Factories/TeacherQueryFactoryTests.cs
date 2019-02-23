@@ -34,7 +34,7 @@ namespace MoriaClient.AutomatedTests.Teachers.Factories
             // When
             Action createQuery = () =>
                 queryTeachers =
-                    TeacherQueryFactory.CreateQuery(new ClientConfiguration("http://example.com", "teachers_list"));
+                    TeacherQueryFactory.CreateQuery(new ClientConfiguration("http://example.com", "teachers_list", string.Empty));
 
             // Then
             createQuery.Should().NotThrow();

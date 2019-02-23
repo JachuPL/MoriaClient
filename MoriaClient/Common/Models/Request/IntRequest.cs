@@ -3,14 +3,14 @@
 namespace MoriaClient.Common.Models.Request
 {
     [DataContract]
-    internal class IntArrayRequest
+    internal class IntRequest
     {
         [DataMember(Name = "id")]
-        public int[] Ids { get; set; }
+        public int Id { get; set; }
 
-        public IntArrayRequest(int[] array)
+        public IntRequest(int id)
         {
-            Ids = array;
+            Id = id;
         }
     }
 }

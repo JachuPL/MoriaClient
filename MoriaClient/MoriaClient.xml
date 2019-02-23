@@ -19,6 +19,11 @@
             Gets the path to teacher list endpoint relative to Moria API base url
             </summary>
         </member>
+        <member name="P:MoriaClient.Configuration.ClientConfiguration.TeacherEntityEndpoint">
+            <summary>
+            Gets the path to teacher entity endpoint relative to Moria API base url
+            </summary>
+        </member>
         <member name="T:MoriaClient.Configuration.ConfigurationBuilder">
             <summary>
             Allows to configure different MoriaClient options
@@ -33,6 +38,12 @@
         <member name="M:MoriaClient.Configuration.ConfigurationBuilder.WithTeacherListEndpoint(System.String)">
             <summary>
             Changes teacher list endpoint
+            </summary>
+            <param name="endpoint">Endpoint path relative to base API url</param>
+        </member>
+        <member name="M:MoriaClient.Configuration.ConfigurationBuilder.WithTeacherEntityEndpoint(System.String)">
+            <summary>
+            Changes teacher entity endpoint
             </summary>
             <param name="endpoint">Endpoint path relative to base API url</param>
         </member>

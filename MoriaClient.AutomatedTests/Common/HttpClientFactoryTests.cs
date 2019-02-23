@@ -27,7 +27,7 @@ namespace MoriaClient.AutomatedTests.Common
         public void ShouldCreateClientWhenConfigurationIsNotNull()
         {
             // Given
-            ClientConfiguration configuration = new ClientConfiguration("http://example.com", "teacher_list");
+            ClientConfiguration configuration = new ClientConfiguration("http://example.com", "teacher_list", string.Empty);
             HttpClientFactory factory = null;
 
             // When
