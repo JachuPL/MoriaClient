@@ -48,11 +48,11 @@ namespace MoriaClient.Teachers
             return apiResponse;
         }
 
-        private void ValidateArrayResponse(EntityArrayApiResponse<Teacher> apiResponse)
+        private static void ValidateArrayResponse(EntityArrayApiResponse<Teacher> apiResponse)
         {
             if (apiResponse?.Result is null)
             {
-                throw new Exception(
+                throw new InvalidCastException(
                     "Something wrong happened, server sent response that does not match predefined structure. Notify me about this bug by creating an issue at project page on GitHub.");
             }
 
@@ -84,7 +84,7 @@ namespace MoriaClient.Teachers
             return apiResponse.Result;
         }
 
-        private void ValidateResponse(EntityApiResponse<Teacher> apiResponse)
+        private static void ValidateResponse(EntityApiResponse<Teacher> apiResponse)
         {
             if (apiResponse?.Result is null)
             {

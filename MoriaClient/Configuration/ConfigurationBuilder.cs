@@ -61,7 +61,7 @@ namespace MoriaClient.Configuration
 
         private bool IsProvidedUrlAValidHttpOrHttpsUrl(string apiUrl)
         {
-            return Uri.TryCreate(_apiUrl, UriKind.Absolute, out Uri uriResult)
+            return Uri.TryCreate(apiUrl, UriKind.Absolute, out Uri uriResult)
                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
     }

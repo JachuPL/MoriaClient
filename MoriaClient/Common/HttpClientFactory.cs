@@ -14,7 +14,7 @@ namespace MoriaClient.Common
 
         internal HttpClient CreateClient()
         {
-            return new HttpClient()
+            return new HttpClient
             {
                 BaseAddress = _baseUri
             };
