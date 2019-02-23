@@ -29,6 +29,10 @@ namespace MoriaClient.Common.Configuration
         /// <returns></returns>
         public ConfigurationBuilder AddEndpoint(EndpointType type, string endpoint)
         {
+            if (!Enum.IsDefined(typeof(EndpointType), type))
+            {
+                throw new ArgumentOutOfRangeException(nameof(type));
+            }
             _endpoints[type] = endpoint;
             return this;
         }
