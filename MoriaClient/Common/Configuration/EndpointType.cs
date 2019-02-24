@@ -6,33 +6,53 @@
     public enum EndpointType
     {
         /// <summary>
-        /// Endpoint that allows to retrieve list of teachers
+        /// Endpoint allowing to retrieve list of teachers
         /// </summary>
         TeacherList,
 
         /// <summary>
-        /// Endpoint that allows to retrieve single teacher by id
+        /// Endpoint allowing to retrieve single teacher by id
         /// </summary>
         Teacher,
 
         /// <summary>
-        /// Endpoint that allows to retrieve list of rooms
+        /// Endpoint allowing to retrieve list of rooms
         /// </summary>
         RoomList,
 
         /// <summary>
-        /// Endpoint that allows to retrieve single room by id
+        /// Endpoint allowing to retrieve single room by id
         /// </summary>
         Room,
 
         /// <summary>
-        /// Endpoint that allows to retrieve list of courses
+        /// Endpoint allowing to retrieve list of courses
         /// </summary>
         CourseList,
 
         /// <summary>
-        /// Endpoint that allows to retrieve single course by id
+        /// Endpoint allowing to retrieve single course by id
         /// </summary>
-        Course
+        Course,
+
+        /// <summary>
+        /// Endpoint allowing to retrieve list of activities taking place in a room
+        /// </summary>
+        ActivitiesByRoom,
+
+        /// <summary>
+        /// Endpoint allowing to retrieve list of activities by course
+        /// </summary>
+        ActivitiesByCourse,
+
+        /// <summary>
+        /// Endpoint allowing to retrieve list of activities by teacher
+        /// </summary>
+        ActivitiesByTeacher,
+
+        /// <summary>
+        /// Endpoint allowing to retrieve single activity by id
+        /// </summary>
+        Activity
     }
 }

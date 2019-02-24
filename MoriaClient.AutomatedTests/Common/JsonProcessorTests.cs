@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using MoriaClient.Activities.Models;
 using MoriaClient.Common;
 using MoriaClient.Common.Models.Request;
 using MoriaClient.Common.Models.Response;
@@ -7,6 +8,7 @@ using MoriaClient.Rooms.Models;
 using MoriaClient.Teachers.Models;
 using NUnit.Framework;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace MoriaClient.AutomatedTests.Common
@@ -161,6 +163,110 @@ namespace MoriaClient.AutomatedTests.Common
             parsedEntities.Result.Should().NotBeNull();
             parsedEntities.Result.Id.Should().Be(1);
             parsedEntities.Result.Name.Should().Be("A");
+        }
+
+        [TestCase(TestName = "JsonProcessor should deserialize activity array correctly")]
+        public void ShouldDeserializeActivityArrayCorrectly()
+        {
+            // Given
+            string activityArrayResultJson =
+                "{\"result\":{\"array\":[{\"event_array\":[{\"break_length\":\"01:01\",\"end_time\":\"01:01\",\"id\":1,\"length\":\"01:01\",\"room\":\"A\",\"room_id\":1,\"start_time\":\"01:01\",\"weekday\":1}],\"event_count\":1,\"id\":1,\"students_array\":[{\"group\":\"1\",\"groups\":\"2\",\"id\":1,\"name\":\"A\"}],\"students_count\":1,\"subject\":\"A\",\"subject_id\":1,\"teacher_array\":[{\"id\":1,\"name\":\"A\"}],\"teacher_count\":1},{\"event_array\":[{\"break_length\":\"02:02\",\"end_time\":\"02:02\",\"id\":2,\"length\":\"02:02\",\"room\":\"B\",\"room_id\":2,\"start_time\":\"02:02\",\"weekday\":2}],\"event_count\":1,\"id\":2,\"students_array\":[{\"group\":\"1\",\"groups\":\"2\",\"id\":2,\"name\":\"B\"}],\"students_count\":1,\"subject\":\"B\",\"subject_id\":2,\"teacher_array\":[{\"id\":2,\"name\":\"B\"}],\"teacher_count\":1},{\"event_array\":[{\"break_length\":\"03:03\",\"end_time\":\"03:03\",\"id\":3,\"length\":\"03:03\",\"room\":\"C\",\"room_id\":3,\"start_time\":\"03:03\",\"weekday\":3}],\"event_count\":1,\"id\":3,\"students_array\":[{\"group\":\"1\",\"groups\":\"2\",\"id\":3,\"name\":\"C\"}],\"students_count\":1,\"subject\":\"C\",\"subject_id\":3,\"teacher_array\":[{\"id\":3,\"name\":\"C\"}],\"teacher_count\":1}],\"count\":3},\"status\":\"ok\"}";
+
+            // When
+            EntityArrayApiResponse<Activity> parsedEntities =
+                JsonProcessor.GetObjectFromStream<EntityArrayApiResponse<Activity>>(
+                    new MemoryStream(Encoding.UTF8.GetBytes(activityArrayResultJson)));
+
+            // Then
+            parsedEntities.Should().NotBeNull();
+            parsedEntities.Result.Should().NotBeNull();
+            parsedEntities.Result.Elements.Should().NotBeNullOrEmpty();
+            parsedEntities.Result.Elements.Should().HaveCount(3);
+            // First activity
+            Activity activity = parsedEntities.Result.Elements.SingleOrDefault(x => x.Id == 1);
+            activity.Should().NotBeNull();
+            activity.Id.Should().Be(1);
+            activity.Subject.Should().Be("A");
+            activity.SubjectId.Should().Be(1);
+            activity.Teachers.Should().Contain(z => z.Name == "A" && z.Id == 1);
+            activity.CourseGroups.Should().Contain(z => z.GroupId == 1
+                                                        && z.Id == 1
+                                                        && z.Name == "A"
+                                                        && z.TotalGroups == 2);
+            activity.Events.Should().Contain(z => z.BreakLength == "01:01"
+                                                  && z.Day == WeekDay.Monday
+                                                  && z.Duration == "01:01"
+                                                  && z.Ends == "01:01"
+                                                  && z.Id == 1
+                                                  && z.RoomId == 1 && z.RoomName == "A"
+                                                  && z.Start == "01:01");
+            // Second activity
+            activity = parsedEntities.Result.Elements.SingleOrDefault(x => x.Id == 2);
+            activity.Should().NotBeNull();
+            activity.Id.Should().Be(2);
+            activity.Subject.Should().Be("B");
+            activity.SubjectId.Should().Be(2);
+            activity.Teachers.Should().Contain(z => z.Name == "B" && z.Id == 2);
+            activity.CourseGroups.Should().Contain(z => z.GroupId == 1
+                                                        && z.Id == 2
+                                                        && z.Name == "B"
+                                                        && z.TotalGroups == 2);
+            activity.Events.Should().Contain(z => z.BreakLength == "02:02"
+                                                  && z.Day == WeekDay.Tuesday
+                                                  && z.Duration == "02:02"
+                                                  && z.Ends == "02:02"
+                                                  && z.Id == 2
+                                                  && z.RoomId == 2 && z.RoomName == "B"
+                                                  && z.Start == "02:02");
+            // Third activity
+            activity = parsedEntities.Result.Elements.SingleOrDefault(x => x.Id == 3);
+            activity.Should().NotBeNull();
+            activity.Id.Should().Be(3);
+            activity.Subject.Should().Be("C");
+            activity.SubjectId.Should().Be(3);
+            activity.Teachers.Should().Contain(z => z.Name == "C" && z.Id == 3);
+            activity.CourseGroups.Should().Contain(z => z.GroupId == 1
+                                                        && z.Id == 3
+                                                        && z.Name == "C"
+                                                        && z.TotalGroups == 2);
+            activity.Events.Should().Contain(z => z.BreakLength == "03:03"
+                                                  && z.Day == WeekDay.Wednesday
+                                                  && z.Duration == "03:03"
+                                                  && z.Ends == "03:03"
+                                                  && z.Id == 3
+                                                  && z.RoomId == 3 && z.RoomName == "C"
+                                                  && z.Start == "03:03");
+        }
+
+        [TestCase(TestName = "JsonProcessor should deserialize activity correctly")]
+        public void ShouldDeserializeActivityCorrectly()
+        {
+            // Given
+            string courseResultJson =
+                "{\"result\":{\"event_array\":[{\"break_length\":\"00:30\",\"end_time\":\"15:50\",\"id\":1,\"length\":\"01:30\",\"room\":\"A\",\"room_id\":1,\"start_time\":\"14:20\",\"weekday\":1}],\"event_count\":1,\"id\":1,\"students_array\":[{\"group\":\"1\",\"groups\":\"2\",\"id\":1,\"name\":\"A\"}],\"students_count\":1,\"subject\":\"A\",\"subject_id\":1,\"teacher_array\":[{\"id\":1,\"name\":\"A\"}],\"teacher_count\":1},\"status\":\"ok\"}";
+            // When
+            EntityApiResponse<Activity> parsedEntities =
+                JsonProcessor.GetObjectFromStream<EntityApiResponse<Activity>>(
+                    new MemoryStream(Encoding.UTF8.GetBytes(courseResultJson)));
+
+            // Then
+            parsedEntities.Should().NotBeNull();
+            parsedEntities.Result.Should().NotBeNull();
+            parsedEntities.Result.Id.Should().Be(1);
+            parsedEntities.Result.Subject.Should().Be("A");
+            parsedEntities.Result.SubjectId.Should().Be(1);
+            parsedEntities.Result.Teachers.Should().Contain(z => z.Name == "A" && z.Id == 1);
+            parsedEntities.Result.CourseGroups.Should().Contain(z => z.GroupId == 1
+                                                        && z.Id == 1
+                                                        && z.Name == "A"
+                                                        && z.TotalGroups == 2);
+            parsedEntities.Result.Events.Should().Contain(z => z.BreakLength == "00:30"
+                                                  && z.Day == WeekDay.Monday
+                                                  && z.Duration == "01:30"
+                                                  && z.Ends == "15:50"
+                                                  && z.Id == 1
+                                                  && z.RoomId == 1 && z.RoomName == "A"
+                                                  && z.Start == "14:20");
         }
 
         // TODO: test against error jsons
